@@ -2,5 +2,19 @@
   sudo: yes
   remote_user: vagrant
   tasks:
-    - name: echo
-      shell: touch hoge
+    - name: setup yum repository.
+      # 参考に http://www.kakiro-web.com/linux/epel-install.html
+      yum: name=epel-release state=installed
+
+    - name: install redis.
+      # 参考に https://qiita.com/kazu56/items/a0ca670d734f58a0cc96
+      yum: name=redis state=installed
+
+    - name: install php.
+      yum: name=php-pecl-redis state=installed
+
+    - name: launch redis.
+      service: name=redis state=started
+
+    - name: launch redis automatically when host launches.
+      service: name=redis enabled=yes
