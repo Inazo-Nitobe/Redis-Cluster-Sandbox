@@ -13,6 +13,15 @@
     - name: install php.
       yum: name=php-pecl-redis state=installed
 
+    - name: install xdebug.
+      yum: name=php-pecl-xdebug state=installed
+
+    - name: setup php for remote debug.
+      copy: src=./configs/xdebug.ini dest=/etc/php.d owner=root mode=0644 backup=yes
+
+    - name: setup bash for remote debug.
+      copy: src=./configs/.bashrc dest=/home/vagrant owner=vagrant mode=0644 backup=yes
+
     - name: launch redis.
       service: name=redis state=started
 
