@@ -10,20 +10,26 @@
       # 参考に https://qiita.com/kazu56/items/a0ca670d734f58a0cc96
       yum: name=redis state=installed
 
-    - name: install php.
-      yum: name=php-pecl-redis state=installed
-
-    - name: install xdebug.
-      yum: name=php-pecl-xdebug state=installed
-
-    - name: setup php for remote debug.
-      copy: src=./configs/xdebug.ini dest=/etc/php.d owner=root mode=0644 backup=yes
-
-    - name: setup bash for remote debug.
-      copy: src=./configs/.bashrc dest=/home/vagrant owner=vagrant mode=0644 backup=yes
-
     - name: launch redis.
       service: name=redis state=started
 
     - name: launch redis automatically when host launches.
       service: name=redis enabled=yes
+
+- hosts: master
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+    - name: set hostname
+      become: true
+      hostname:
+        name: redis-master
+
+- hosts: slave
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+    - name: set hostname
+      become: true
+      hostname:
+        name: redis-slave
