@@ -10,6 +10,12 @@
       # 参考に https://qiita.com/kazu56/items/a0ca670d734f58a0cc96
       yum: name=redis state=installed
 
+    - name: install manuals.
+      yum: name=man-pages.noarch state=installed
+
+    - name: install nc.
+      yum: name=nc state=installed
+
     - name: launch redis.
       service: name=redis state=started
 
@@ -25,11 +31,20 @@
       hostname:
         name: redis-master
 
-- hosts: slave
+- hosts: 192.168.33.21
   sudo: yes
   remote_user: vagrant
   tasks:
     - name: set hostname
       become: true
       hostname:
-        name: redis-slave
+        name: redis-slave1
+
+- hosts: 192.168.33.22
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+    - name: set hostname
+      become: true
+      hostname:
+        name: redis-slave2
