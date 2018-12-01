@@ -48,3 +48,12 @@
       become: true
       hostname:
         name: redis-slave2
+
+- hosts: 192.168.33.23
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+    - name: set hostname
+      become: true
+      hostname:
+        name: redis-slave3
