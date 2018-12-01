@@ -22,6 +22,21 @@
     - name: launch redis automatically when host launches.
       service: name=redis enabled=yes
 
+    - name: backup a config file for Redis.
+      command: mv /etc/{{file}} /etc/{{file}}.ORG creates=/etc/{{file}}.ORG
+      with_items:
+        - redis.conf
+
+    - name: create a link to config file for Redis.
+      file: src=/vagrant_data/{{file}} dest=/etc/{{file}} state=link
+      with_items:
+        - redis.conf
+
+    - name: backup a config file for Sentinel.
+      command: cp /etc/{{file}} /etc/{{file}}.ORG creates=/etc/{{file}}.ORG
+      with_items:
+        - redis-sentinel.conf
+
 - hosts: master
   sudo: yes
   remote_user: vagrant
