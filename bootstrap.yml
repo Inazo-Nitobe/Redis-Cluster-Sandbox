@@ -23,13 +23,10 @@
       service: name=redis enabled=yes
 
     - name: backup a config file for Redis.
-      command: mv /etc/redis.conf /etc/redis.conf.ORG creates=/etc/redis.conf.ORG
-
-    - name: create a link to config file for Redis.
-      file: src=/vagrant_data/redis.conf dest=/etc/redis.conf state=link
-
-    - name: backup a config file for Sentinel.
-      command: cp /etc/redis-sentinel.conf /etc/redis-sentinel.conf.ORG creates=/etc/redis-sentinel.conf.ORG
+      command: cp /etc/redis.conf /etc/{{ item }}.ORG creates=/etc/{{ item }}.ORG
+      with_items:
+        - redis.conf
+        - redis-sentinel.conf
 
 - hosts: master
   sudo: yes
