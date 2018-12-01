@@ -16,19 +16,23 @@
     - name: install nc.
       yum: name=nc state=installed
 
-    - name: launch redis.
-      service: name=redis state=started
-
-    - name: launch redis automatically when host launches.
-      service: name=redis enabled=yes
-
     - name: backup a config file for Redis.
       command: cp /etc/redis.conf /etc/{{ item }}.ORG creates=/etc/{{ item }}.ORG
       with_items:
         - redis.conf
         - redis-sentinel.conf
 
-- hosts: master
+- hosts: redis
+  sudo: yes
+  remote_user: vagrant
+  tasks:
+    - name: launch redis.
+      service: name=redis state=started
+
+    - name: launch redis automatically when host launches.
+      service: name=redis enabled=yes
+
+- hosts: 192.168.33.20
   sudo: yes
   remote_user: vagrant
   tasks:
