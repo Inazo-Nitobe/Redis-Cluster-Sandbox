@@ -18,10 +18,4 @@ Vagrant.configure("2") do |config|
     slave2.vm.network "private_network", ip: "192.168.33.22"
     slave2.vm.synced_folder "./data/slave2", "/vagrant_data"
   end
-
-  config.vm.define "slave3" do |slave3|
-    slave3.vm.box = "bento/centos-7"
-    slave3.vm.network "private_network", ip: "192.168.33.23"
-    slave3.vm.synced_folder "./data/slave3", "/vagrant_data"
-  end
 end
