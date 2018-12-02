@@ -1,15 +1,15 @@
 [cluster]
-192.168.33.20 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/master/virtualbox/private_key
-192.168.33.21 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/slave1/virtualbox/private_key
-192.168.33.22 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/slave2/virtualbox/private_key
+54.92.75.158 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=~/.ssh/appvisor-push-server-key-pair.pem
+54.199.244.228 ansible_ssh_user=ec2-user ansible_ssh_priec2-user=~/.ssh/appvisor-push-server-key-pair.pem
+3.112.14.149 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=~/.ssh/appvisor-push-server-key-pair.pem
 
 [redis]
-192.168.33.20 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/master/virtualbox/private_key
-192.168.33.21 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/slave1/virtualbox/private_key
+54.92.75.158 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=~/.ssh/appvisor-push-server-key-pair.pem
+54.199.244.228 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=~/.ssh/appvisor-push-server-key-pair.pem
 
 [master]
-192.168.33.20 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/master/virtualbox/private_key
+54.92.75.158 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=~/.ssh/appvisor-push-server-key-pair.pem
 
 [slave]
-192.168.33.21 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/slave1/virtualbox/private_key
+54.199.244.228 ansible_ssh_user=ec2-user ansible_ssh_private_key_file=~/.ssh/appvisor-push-server-key-pair.pem
 

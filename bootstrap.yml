@@ -1,6 +1,6 @@
 - hosts: all
   sudo: yes
-  remote_user: vagrant
+  remote_user: ec2-user
   tasks:
     - name: setup yum repository.
       # 参考に http://www.kakiro-web.com/linux/epel-install.html
@@ -8,7 +8,7 @@
 
     - name: install redis.
       # 参考に https://qiita.com/kazu56/items/a0ca670d734f58a0cc96
-      yum: name=redis state=installed
+      yum: name=redis state=installed enablerepo=epel
 
     - name: install manuals.
       yum: name=man-pages.noarch state=installed
@@ -17,7 +17,7 @@
       yum: name=nc state=installed
 
     - name: backup a config file for Redis.
-      command: cp /etc/redis.conf /etc/{{ item }}.ORG creates=/etc/{{ item }}.ORG
+      command: cp /etc/{{ item }} /etc/{{ item }}.ORG creates=/etc/{{ item }}.ORG
       with_items:
         - redis.conf
         - redis-sentinel.conf
@@ -33,7 +33,7 @@
 
 - hosts: redis
   sudo: yes
-  remote_user: vagrant
+  remote_user: ec2-user
   tasks:
     - name: launch redis.
       service: name=redis state=started
@@ -41,30 +41,47 @@
     - name: launch redis automatically when host launches.
       service: name=redis enabled=yes
 
-- hosts: 192.168.33.20
+- hosts: 54.92.75.158
   sudo: yes
-  remote_user: vagrant
+  remote_user: ec2-user
   tasks:
     - name: set hostname
       become: true
       hostname:
         name: redis-master
 
-- hosts: 192.168.33.21
+    - name: setup redis configuration.
+      copy: src=./data/master/{{ item }} dest=/etc/{{ item }} owner=root mode=0666
+      with_items:
+        - redis.conf
+        - redis-sentinel.conf
+
+- hosts: 54.199.244.228
   sudo: yes
-  remote_user: vagrant
+  remote_user: ec2-user
   tasks:
     - name: set hostname
       become: true
       hostname:
         name: redis-slave1
 
-- hosts: 192.168.33.22
+    - name: setup redis configuration.
+      copy: src=./data/slave1/{{ item }} dest=/etc/{{ item }} owner=root mode=0666
+      with_items:
+        - redis.conf
+        - redis-sentinel.conf
+
+- hosts: 3.112.14.149
   sudo: yes
-  remote_user: vagrant
+  remote_user: ec2-user
   tasks:
     - name: set hostname
       become: true
       hostname:
         name: redis-slave2
+
+    - name: setup redis configuration.
+      copy: src=./data/slave2/{{ item }} dest=/etc/{{ item }} owner=root mode=0666
+      with_items:
+        - redis-sentinel.conf
 
