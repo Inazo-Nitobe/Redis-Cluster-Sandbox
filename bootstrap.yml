@@ -22,6 +22,15 @@
         - redis.conf
         - redis-sentinel.conf
 
+    - name: nginx location config file directory
+      file: path=/etc/redis state=directory owner=root group=root mode=0755
+
+    - name: setup sentinel handlers.
+      copy: src=./data/{{ item }} dest=/etc/redis/{{ item }} owner=root mode=0755
+      with_items:
+        - notify.sh
+        - reconfig.sh
+
 - hosts: redis
   sudo: yes
   remote_user: vagrant
